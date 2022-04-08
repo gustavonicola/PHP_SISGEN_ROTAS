@@ -7,8 +7,8 @@
         
         <?php include 'includes/cabecalho.php'; ?>
 
-        <main>
-            Tela inicial
+        <main class="container">
+            <h2>Dashboard</h2>
         </main>
         
         <?php include 'includes/rodape.php'; ?>
