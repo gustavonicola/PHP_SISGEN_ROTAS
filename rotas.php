@@ -1,5 +1,8 @@
 <?php
 
+use App\Controller\{ DashboardController, LoginController, 
+                    ProdutoController, CategoriaController };
+
 try {
     
     switch($uri_parse){

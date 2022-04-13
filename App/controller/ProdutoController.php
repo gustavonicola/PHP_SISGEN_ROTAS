@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Controller;
+
+use App\DAO\{ ProdutoDAO, CategoriaDAO, MarcaDAO };
+
+
 class ProdutoController extends Controller {
 
     public static function index()
@@ -11,7 +16,7 @@ class ProdutoController extends Controller {
         $lista_produtos = $produto_dao->getAllRows();
         $total_produtos = count($lista_produtos);
 
-        include 'views/modulos/produto/listar_produtos.php';
+        include PATH_VIEW . 'modulos/produto/listar_produtos.php';
     }
 
     public static function ver()
@@ -23,7 +28,7 @@ class ProdutoController extends Controller {
                 
             $produto_dao = new ProdutoDAO();
             $dados_produto = $produto_dao->getById($_GET['id']);
-            include 'views/modulos/produto/cadastrar_produto.php';
+            include PATH_VIEW . 'modulos/produto/cadastrar_produto.php';
         
         } else {
             
@@ -53,7 +58,7 @@ class ProdutoController extends Controller {
         $lista_marcas = $marca_dao->getAllRows();
         $total_marcas = count($lista_marcas);
         
-        include 'views/modulos/produto/cadastrar_produto.php';
+        include PATH_VIEW . 'modulos/produto/cadastrar_produto.php';
     }
 
     public static function salvar()

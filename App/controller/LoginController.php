@@ -1,10 +1,15 @@
 <?php
 
+namespace App\Controller;
+
+use App\DAO\loginDAO;
+
+
 class LoginController extends Controller {
 
     public static function login()
     {
-        include 'views/login.php';
+        include PATH_VIEW . 'login.php';
     }
 
     public static function autenticar()
