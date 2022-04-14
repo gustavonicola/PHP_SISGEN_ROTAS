@@ -24,12 +24,17 @@
                     <form method="POST" action="/autenticar">
                         <div class="form-group">
                             <label for="user">Usuário:</label>
-                            <input id="user" name="user" class="form-control" type="text" />                        
+                            <input id="user" name="user" class="form-control" type="text" value="<?= $usuario ?>" />                        
                         </div>
                         
                         <div class="form-group">
                             <label for="pass">Senha: </label>
                             <input id="pass" name="pass" class="form-control" type="password" />                        
+                        </div>
+
+                        <div class="form-group">                            
+                            <input id="remember" name="remember" type="checkbox" />
+                            <label for="remember">Lembrar meu usuário. </label>
                         </div>
 
                         <button class="btn btn-success" type="submit">Entrar</button>
