@@ -2,7 +2,7 @@
 <html lang="pt-br">
 
 <head>
-    <title>Login</title>
+    <title>Esqueci a senha</title>
     <?php include PATH_VIEW . 'includes/css_config.php'; ?>
     <meta charset="UTF-8">
 </head>
@@ -21,25 +21,22 @@
 
             <main>
                 <div style="margin:0 auto; max-width:40%">
-                    <form method="POST" action="/autenticar">
-                        <div class="form-group">
-                            <label for="user">Usuário:</label>
-                            <input id="user" name="user" class="form-control" type="text" value="<?= $usuario ?>" />                        
+                    <form method="POST" action="/enviar-nova-senha">
+                        
+                        <?php if(isset($retorno)): ?>
+                        <div class="alert alert-primary" role="alert">
+                            <?=  $retorno ?>
                         </div>
+                        <?php endif ?>
                         
                         <div class="form-group">
-                            <label for="pass">Senha: </label>
-                            <input id="pass" name="pass" class="form-control" type="password" />                        
-                        </div>
+                            <label for="email">E-mails:</label>
+                            <input id="email" name="email" class="form-control" type="email" />                        
+                        </div>                              
 
-                        <div class="form-group">                            
-                            <input id="remember" name="remember" type="checkbox" />
-                            <label for="remember">Lembrar meu usuário. </label>
-                        </div>
-
-                        <button class="btn btn-success" type="submit">Entrar</button>
-
-                        <a href="/esqueci-a-senha" class="btn">Esqueci a senha</a>
+                        <button class="btn btn-success" type="submit">Enviar nova Senha</button>
+                        <a href="/login" class="btn">Voltar</a>
+                        
                     </form>
                 </div>
             </main>

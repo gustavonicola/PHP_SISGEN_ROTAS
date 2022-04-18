@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\DAO\loginDAO;
-
+use Exception;
 
 class LoginController extends Controller {
 
@@ -12,6 +12,47 @@ class LoginController extends Controller {
         $usuario = (isset($_COOKIE['sisgen_user'])) ? $_COOKIE['sisgen_user'] : '';
 
         include PATH_VIEW . 'login.php';
+    }
+
+    public static function esqueciSenha(){
+
+        include PATH_VIEW . 'esqueci-senha.php';
+
+    }
+
+    public static function enviarNovaSenha(){
+
+        try {
+
+            // Gera uma nova senha
+            $nova_senha = uniqid();
+
+            // Pega o e-mail digitado
+            $email = $_POST['email'];
+
+            // Altera no banco a senha se o e-mail for válido no cadastro de usuário
+            $login_dao = new loginDAO();
+            $login_dao->setNewPasswordForUserByEmail($email, $nova_senha);
+
+            // Envia por e-mail a nova senha
+            $assunto = "Nova senha do Sistema";
+            $mensagem = "Sua nova senha é: ". $nova_senha;
+
+            $retorno = "Caso seu e-mail esteja em nosso sistema você acaba de receber uma nova senha.";
+
+            if(!mail($email, $assunto, $mensagem)){
+                $teste = "Senha gerada: " . $nova_senha;
+                throw new Exception("Desculpe, ocorreu um erro ao enviar o e-mail. " . $teste);                
+            }
+
+        } catch (Exception $e) {
+
+            $retorno= $e->getMessage();
+
+        } 
+
+        include PATH_VIEW . 'esqueci-senha.php';
+
     }
 
     public static function autenticar()
