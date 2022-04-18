@@ -10,7 +10,13 @@
         <div class="col-sm">
             <fieldset>
                 <legend>Dados do Usuário</legend>
-                    Bem-vindo <strong><?= App\Controller\LoginController::getNameOfUser(); ?></strong> a area restrita</h1> 
+                    Bem-vindo 
+                    <strong>
+                        <a href="/usuario/meus-dados" class="btn" >
+                            <?= App\Controller\LoginController::getNameOfUser(); ?>
+                        </a>
+                    </strong>
+
                     <a class="btn btn-dark" href="/sair">Sair</a>
             </fieldset>
         </div>

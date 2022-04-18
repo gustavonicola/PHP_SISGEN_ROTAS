@@ -113,6 +113,17 @@ class LoginController extends Controller {
         return $_SESSION['usuario_logado']['nome'];
     }
 
+    public static function updateNameOfCurrentUser($name)
+    {
+        $_SESSION['usuario_logado']['nome'] = $name;
+    }
+
+
+    public static function getIdOfCurrentUser()
+    {
+        return $_SESSION['usuario_logado']['id'];
+    }
+
     
 
 }
