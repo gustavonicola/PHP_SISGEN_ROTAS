@@ -40,9 +40,11 @@ class LoginController extends Controller {
 
             $retorno = "Caso seu e-mail esteja em nosso sistema você acaba de receber uma nova senha.";
 
-            if(!mail($email, $assunto, $mensagem)){
-                $teste = "Senha gerada: " . $nova_senha;
-                throw new Exception("Desculpe, ocorreu um erro ao enviar o e-mail. " . $teste);                
+            $saida_email = mail($email, $assunto, $mensagem, "From: mundomeubebe@gmail.com");
+
+            if(!$saida_email){
+                //$teste = "Senha gerada: " . $nova_senha;
+                throw new Exception("Desculpe, ocorreu um erro ao enviar o e-mail. ");
             }
 
         } catch (Exception $e) {
