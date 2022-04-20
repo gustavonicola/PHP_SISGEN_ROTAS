@@ -12,7 +12,7 @@
                 <legend>Dados do Usuário</legend>
                     Bem-vindo 
                     <strong>
-                        <a href="/usuario/meus-dados" class="btn" >
+                        <a href="/usuario/meus-dados" class="btn btn-default">
                             <?= App\Controller\LoginController::getNameOfUser(); ?>
                         </a>
                     </strong>

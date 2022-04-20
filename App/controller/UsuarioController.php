@@ -15,6 +15,18 @@ class UsuarioController extends Controller {
 
         $meus_dados = $usuario_dao->getMyUserById(LoginController:: getIdOfCurrentUser());
 
+        if(isset($_GET['success'])){
+            $retorno['positivo'] = "Dados alterados com sucesso!";
+        }
+
+        if(isset($_GET['wrongpassword'])){
+            $retorno['senha_incorreta'] = "Senha incorreta. As alterações não foram salvas.";
+        }
+
+        if(isset($_GET['wrongpasswordconfirmation'])){
+            $retorno['senha_confirmacao_incorreta'] = "A confirmação da nova senha não confere com a nova senha.";
+        }
+
         require PATH_VIEW . '/modulos/usuario/meus-dados.php';
 
     }
@@ -23,22 +35,49 @@ class UsuarioController extends Controller {
     {
         parent::isProtected();
 
-        $usuario_dao = new UsuarioDAO();
+        //Verificando se o usuário colocou a senha atual correta
+        if(self::checkCurrenteUserPassword($_POST['senha_atual']))
+        { 
+            // Verifica se o usuário quer alterar a senha
+            if(!empty($_POST['nova_senha']))
+            {
+                if($_POST['nova_senha'] == $_POST['confirmacao_nova_senha'])
+                {
+                    $nova_senha = $_POST['nova_senha'];                    
+                } else {                                                            
+                    header("Location: /usuario/meus-dados?wrongpasswordconfirmation=true");
+                    exit;
+                }
+            }
 
-        $dados_para_salvar = array(
-            'id' => LoginController::getIdOfCurrentUser(),
-            'nome' => $_POST['nome'],
-            'email' => $_POST['email'],
-            'senha' => $_POST['senha_atual'],
-         );
+            $usuario_dao = new UsuarioDAO();
 
-        $usuario_dao->update($dados_para_salvar);
+            $dados_para_salvar = array(
+                'id' => LoginController::getIdOfCurrentUser(),
+                'nome' => $_POST['nome'],
+                'email' => $_POST['email'],
+                'senha' => isset($nova_senha) ? $nova_senha : $_POST['senha_atual']
+            );
 
-        LoginController::updateNameOfCurrentUser($dados_para_salvar['nome']);
+            $usuario_dao->update($dados_para_salvar);
 
-        header("Location: /");
+            LoginController::updateNameOfCurrentUser($dados_para_salvar['nome']);
+            
+            header("Location: /usuario/meus-dados?success=true");
+
+        } else {
+
+            header("Location: /usuario/meus-dados?wrongpassword=true");            
+
+        }        
     }
 
+    private static function checkCurrenteUserPassword($password)
+    {
+        $usuario_dao = new UsuarioDAO();        
+        
+        $retorno = $usuario_dao->checkUserByIdAndPassword(LoginController::getIdOfCurrentUser(), $password);
 
-
+        return ($retorno !== false) ? true : false;
+    }
 }

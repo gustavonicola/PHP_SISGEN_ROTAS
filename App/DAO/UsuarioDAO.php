@@ -26,6 +26,16 @@ class UsuarioDAO extends DAO
 
     }
 
+    public function checkUserByIdAndPassword($id, $senha)
+    {
+        $stmt = $this->conexao->prepare("SELECT id FROM usuarios WHERE id = ? AND senha = sha1(?)");
+        $stmt->bindValue(1, $id);
+        $stmt->bindValue(2, $senha);
+        $stmt->execute();
+
+        return $stmt->fetchObject();
+    }
+
     /**
      * Método para atualizar os dados do usuário
      */
