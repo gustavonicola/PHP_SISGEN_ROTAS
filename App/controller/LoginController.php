@@ -14,13 +14,15 @@ class LoginController extends Controller {
         include PATH_VIEW . 'login.php';
     }
 
-    public static function esqueciSenha(){
+    public static function esqueciSenha()
+    {
 
         include PATH_VIEW . 'esqueci-senha.php';
 
     }
 
-    public static function enviarNovaSenha(){
+    public static function enviarNovaSenha()
+    {
 
         try {
 
@@ -69,12 +71,14 @@ class LoginController extends Controller {
         if($resultado !== false)
         {
             
-            $_SESSION["usuario_logado"] = array('id'=>$resultado->id, 'nome'=>$resultado->nome);
+            $_SESSION["usuario_logado"] = array('id'=>$resultado->id, 
+                                                'nome'=>$resultado->nome,
+                                                'grupo'=>$resultado->nome_grupo,
+                                                'permissoes_grupo'=>$resultado->permissoes_grupo);
 
             if(isset($_POST['remember'])){
                 self::remember($usuario);
-            }
-                
+            }                
             
                 header("Location: /");
         
@@ -87,13 +91,15 @@ class LoginController extends Controller {
 
     }
 
-    private static function remember($user){
+    private static function remember($user)
+    {
         $validade = strtotime("+1 month");
         setcookie("sisgen_user", $user, $validade, "/", "", false, true);
 
     }
 
-    private static function forget(){
+    private static function forget()
+    {
         $validade = time() -3600;
         setcookie("sisgen_user", "", $validade, "/", "", false, true);
     }
@@ -110,9 +116,14 @@ class LoginController extends Controller {
         parent::isProtected();        
     }
 
-    public static function getNameOfUser()
+    public static function getNameOfCurrentUser()
     {
         return $_SESSION['usuario_logado']['nome'];
+    }
+
+    public static function getGroupOfCurrentUser()
+    {
+        return $_SESSION['usuario_logado']['grupo'];
     }
 
     public static function updateNameOfCurrentUser($name)
