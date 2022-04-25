@@ -1,7 +1,7 @@
 <?php
 
 use App\Controller\{ DashboardController, LoginController, 
-                    ProdutoController, CategoriaController, UsuarioController };
+                    ProdutoController, CategoriaController, UsuarioController, UsuarioGrupoController };
 
 try {
     
@@ -43,6 +43,32 @@ try {
         case '/usuario/salvar':
             UsuarioController::salvar();
         break;
+
+
+        // Rotas para trabalhar com grupo de usuários
+        case '/usuario/grupo':
+            UsuarioGrupoController::index();
+        break;
+
+        case '/usuario/grupo/ver':
+            UsuarioGrupoController::ver();
+        break;
+
+        case '/usuario/grupo/cadastrar':
+            UsuarioGrupoController::cadastrar();
+        break;
+
+        case '/usuario/grupo/salvar':
+            UsuarioGrupoController::salvar();
+        break;
+
+        case '/usuario/grupo/excluir':
+            UsuarioGrupoController::excluir();
+        break;
+
+
+
+
 
 
     

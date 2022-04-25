@@ -23,13 +23,7 @@ class CategoriaDAO extends DAO {
         $stmt = $this->conexao->prepare("SELECT * FROM categoria");        
         $stmt->execute(); 
         
-        $arr_categorias = array();
-
-        while($c = $stmt->fetchObject()){
-            $arr_categorias[] = $c;
-        }
-                    
-        return  $arr_categorias;
+        return $stmt->fetchAll(\PDO::FETCH_CLASS);
     }
 
     

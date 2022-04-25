@@ -23,7 +23,16 @@
                         </a>                        
                     </strong>                    
                         Grupo: <?= $grupo ?> 
-                        <br />                   
+                        <br />
+                    
+                    <a href="/usuario/grupo/cadastrar" class="btn btn-default">
+                        Novo Grupo de Usuários
+                    </a>
+
+                    <a href="/usuario/grupo" class="btn btn-default">
+                        Lista de Grupos de Usuários
+                    </a>
+
 
                     <a class="btn btn-dark" href="/sair">Sair</a>
             </fieldset>
