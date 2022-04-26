@@ -36,12 +36,32 @@ try {
 
         
         // Rotas para trabalhar com o usuário
-        case '/usuario/meus-dados':
-            UsuarioController::meusDados();
+        case '/usuario':
+            UsuarioController::index();
+        break;
+
+        case '/usuario/cadastrar':
+            UsuarioController::cadastrar();
         break;
 
         case '/usuario/salvar':
             UsuarioController::salvar();
+        break;
+
+        case '/usuario/ver':
+            UsuarioController::ver();
+        break;
+
+        case '/usuario/excluir':
+            UsuarioController::excluir();
+        break;
+
+        case '/usuario/meus-dados':
+            UsuarioController::meusDados();
+        break;
+
+        case '/usuario/meus-dados/salvar':
+            UsuarioController::meusDadosSalvar();
         break;
 
 

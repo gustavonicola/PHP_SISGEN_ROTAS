@@ -13,29 +13,27 @@
             </h1>
         </div>
 
-        <div class="col-sm-5">
-            <fieldset>
-                <legend>Dados do Usuário</legend>
-                    Bem-vindo 
-                    <strong>
-                        <a href="/usuario/meus-dados" class="btn btn-default">
-                            <?= $usuario ?>
-                        </a>                        
-                    </strong>                    
-                        Grupo: <?= $grupo ?> 
-                        <br />
-                    
-                    <a href="/usuario/grupo/cadastrar" class="btn btn-default">
-                        Novo Grupo de Usuários
-                    </a>
-
-                    <a href="/usuario/grupo" class="btn btn-default">
-                        Lista de Grupos de Usuários
-                    </a>
-
-
-                    <a class="btn btn-dark" href="/sair">Sair</a>
-            </fieldset>
+        <div class="col-sm-5 text-right align-self-center">
+            <div class="btn-group" role="group" aria-label="Opções de Usuário">
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= $usuario ?>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <h6 class="dropdown-header"><?= $grupo ?></h6>
+                        <a class="dropdown-item" href="/usuario/meus-dados" > Meus Dados </a>
+                        <div class="dropdown-divider"></div>
+                        <h6 class="dropdown-header">Grupos de Usuários</h6>
+                        <a class="dropdown-item" href="/usuario/grupo/cadastrar"> Novo Grupo </a>
+                        <a class="dropdown-item" href="/usuario/grupo"> Lista de Grupos </a>
+                        <div class="dropdown-divider"></div>
+                        <h6 class="dropdown-header">Usuários</h6>
+                        <a class="dropdown-item" href="/usuario/cadastrar"> Novo Usuário </a>
+                        <a class="dropdown-item" href="/usuario"> Lista de Usuários </a>
+                    </div>
+                </div>
+                <a class="btn btn-outline-dark" href="/sair">Sair</a>
+            </div>
         </div>
     </div>
 

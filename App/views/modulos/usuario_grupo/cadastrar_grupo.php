@@ -19,10 +19,35 @@
             <form method="POST" action="/usuario/grupo/salvar">
 
                 <div class="form-group">
-                    <label>Descrição (Nome) do grupo:
-                        <input name="descricao" class="form-control" value="<?= isset($dados_grupo) ? $dados_grupo->descricao : "" ?>" type="text" />
-                    </label>
+                    <label for="descricao">Descrição (Nome) do grupo:</label>
+                    <input id="descricao" name="descricao" class="form-control" value="<?= isset($dados_grupo) ? $dados_grupo->descricao : "" ?>" type="text" />                    
                 </div>
+
+                <fieldset class="border rounded p-3 mb-3 bg-light">
+                    <legend class="form-label col-auto bg-light">Permissões do Grupo</legend>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <input id="cadastrar" name="cadastrar" type="checkbox" <?= ($dados_grupo->cadastrar == 'S') ? 'checked' : '' ?> />
+                            <label for="cadastrar">Cadastrar</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input id="editar" name="editar" type="checkbox" <?= ($dados_grupo->editar == 'S') ? 'checked' : '' ?> />
+                            <label for="editar">Editar</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input id="listar" name="listar" type="checkbox" <?= ($dados_grupo->listar == 'S') ? 'checked' : '' ?> />
+                            <label for="listar">Listar</label>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input id="excluir" name="excluir" type="checkbox" <?= ($dados_grupo->excluir == 'S') ? 'checked' : '' ?> />
+                            <label for="excluir">Excluir</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                
+
+
                 
                 <?php if(isset($dados_grupo)): ?>
                     <input name="id" type="hidden" value="<?= $dados_grupo->id ?>" />

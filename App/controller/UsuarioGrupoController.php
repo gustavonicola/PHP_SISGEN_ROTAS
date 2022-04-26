@@ -49,7 +49,11 @@ class UsuarioGrupoController extends Controller
 
             $grupo_dao = new UsuarioGrupoDAO();
             $dados_para_salvar = array(
-                'descricao' => $_POST["descricao"]
+                'descricao' => $_POST["descricao"],
+                'cadastrar' => isset($_POST["cadastrar"]) ? 'S' : 'N',
+                'editar'    => isset($_POST["editar"]) ? 'S' : 'N',
+                'listar'    => isset($_POST["listar"]) ? 'S' : 'N',
+                'excluir'   => isset($_POST["excluir"]) ? 'S' : 'N'
             );
 
             // Se o campo oculto id estiver preenchido, deverá atualizar a informação senão insere um novo registro
