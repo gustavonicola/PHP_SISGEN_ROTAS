@@ -12,6 +12,18 @@
                 <h4>
                     Lista de Produtos
                 </h4>
+
+                <?php if($model->hasValidationsErrors()): ?>
+                    <div class="alert alert-danger" role="alert">
+                        
+                        <?php foreach($model->getValidationsErrors() as $error):
+
+                            echo $error . "<br />";
+
+                        endforeach; ?>
+                    </div>
+
+                <?php endif; ?>
                 
                 <table class="table table-hover mt-3">
                     <thead class="thead-dark">
@@ -22,17 +34,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for($i=0; $i<$total_produtos; $i++): ?>
+                        <?php foreach($arr_produtos as $produto): ?>
                         <tr>
                             <td>
-                                <a href="/produto/ver?id=<?= $lista_produtos[$i]->id ?>">
+                                <a href="/produto/ver?id=<?= $produto->id ?>">
                                     Abrir
                                 </a>
                             </td>
-                            <td><?= $lista_produtos[$i]->id ?></td>
-                            <td><?= $lista_produtos[$i]->descricao ?></td>
+                            <td><?= $produto->id ?></td>
+                            <td><?= $produto->descricao ?></td>
                         </tr>
-                        <?php endfor ?>
+                        <?php endforeach ?>
+
+                        <?php if(count($arr_produtos) == 0): ?>
+                            <tr>
+                                <td colspan="3" class="text-center">Nenhum produto encontrado.</td>
+                            </tr>
+                        
+                        <?php endif ?>
+
                     </tbody>
                 </table>
             </main>

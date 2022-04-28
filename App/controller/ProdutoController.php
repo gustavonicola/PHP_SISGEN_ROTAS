@@ -2,19 +2,29 @@
 
 namespace App\Controller;
 
-use App\DAO\{ ProdutoDAO, CategoriaDAO, MarcaDAO };
+use App\DAO\{ProdutoDAO, CategoriaDAO, MarcaDAO};
+use App\Model\ProdutoModel;
+use Exception;
 
-
-class ProdutoController extends Controller {
+class ProdutoController extends Controller
+{
 
     public static function index()
     {
         // Executa a função isProtected que está no arquivo Controller para verificar se o usuário está logado
         parent::isProtected();
+
+        $arr_produtos = array();
+
+        try {
+
+            $model = new ProdutoModel();
+
+            $arr_produtos = $model->getAll();
         
-        $produto_dao = new ProdutoDAO();
-        $lista_produtos = $produto_dao->getAllRows();
-        $total_produtos = count($lista_produtos);
+        } catch (Exception $e) {
+            //echo $e->getMessage();
+        }
 
         include PATH_VIEW . 'modulos/produto/listar_produtos.php';
     }
@@ -23,41 +33,35 @@ class ProdutoController extends Controller {
     {
         // Executa a função isProtected que está no arquivo Controller para verificar se o usuário está logado
         parent::isProtected();
-        
-        if(isset($_GET['id'])){
-                
-            $produto_dao = new ProdutoDAO();
-            $dados_produto = $produto_dao->getById($_GET['id']);
-            include PATH_VIEW . 'modulos/produto/cadastrar_produto.php';
-        
-        } else {
-            
-            header("Location: /produto");
 
+        try {
+
+            if (isset($_GET['id'])) {
+                $model = new ProdutoModel();
+
+                $dados = $model->getById((int) $_GET['id']);
+
+                self::cadastrar($dados);
+            } else {
+                header("Location: /produto");
+            }
+        } catch (Exception $e) {
+
+            self::cadastrar($model);
         }
     }
 
-    public static function cadastrar()
+    public static function cadastrar(ProdutoModel $_model = null)
     {
-        
+
         // Executa a função isProtected que está no arquivo Controller para verificar se o usuário está logado
         parent::isProtected();
 
-        /**
-         * Obtendo as Categorias
-         */
-        $categoria_dao = new CategoriaDAO();
-        $lista_categorias = $categoria_dao->getAllRows();
-        $total_categorias = count($lista_categorias);
+        $model = ($_model == null) ? new ProdutoModel() : $_model;
 
-        
-        /**
-         * Obtendo as Marcas
-         */
-        $marca_dao = new MarcaDAO();
-        $lista_marcas = $marca_dao->getAllRows();
-        $total_marcas = count($lista_marcas);
-        
+        $model->lista_categorias = $model->getAllCategorias();
+        $model->lista_marcas = $model->getAllMarcas();
+
         include PATH_VIEW . 'modulos/produto/cadastrar_produto.php';
     }
 
@@ -65,42 +69,50 @@ class ProdutoController extends Controller {
     {
         // Executa a função isProtected que está no arquivo Controller para verificar se o usuário está logado
         parent::isProtected();
-        
-        $produto_dao = new ProdutoDAO();
-        
-        $dados_para_salvar = array(
-            'id_marca' => $_POST["id_marca"],
-            'id_categoria' => $_POST["id_categoria"],
-            'descricao' => $_POST["descricao"],
-            'preco' => $_POST["preco"]
-        );        
 
-        // Se o campo oculto id estiver preenchido, deverá atualizar a informação senão insere um novo registro
-        if(isset($_POST['id'])){
+        try {
 
-            $dados_para_salvar['id'] = $_POST["id"];
+            $model = new ProdutoModel();
 
-            $produto_dao->update($dados_para_salvar);            
+            $model->setId(isset($_POST["id"]) ? $_POST["id"] : null);
+            $model->setDescricao($_POST["descricao"]);
+            $model->setPreco($_POST["preco"]);
+            $model->setCategoria((int)$_POST["id_categoria"]);
+            $model->setMarca((int)$_POST["id_marca"]);
 
-        } else {
-        
-            $produto_dao->insert($dados_para_salvar);            
+            $model->save();
 
+            header("Location: /produto");
+        } catch (Exception $e) {
+
+            self::cadastrar($model);
         }
-
-        header("Location: /produto");
     }
 
     public static function excluir()
     {
         // Executa a função isProtected que está no arquivo Controller para verificar se o usuário está logado
         parent::isProtected();
-        
+
+        if (isset($_GET['id'])) {
+            try {
+
+                $model = new ProdutoModel();
+
+                $model->delete((int) $_GET['id']);
+
+                header("Location: /produto");
+            } catch (Exception $e) {
+
+                self::cadastrar($model);
+            }
+        } else {
+            header("Location: /produto");
+        }
+
         $produto_dao = new ProdutoDAO();
         $dados_produto = $produto_dao->delete($_GET['id']);
-        
+
         header("Location: /produto");
     }
-
-
 }
